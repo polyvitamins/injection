@@ -8,29 +8,33 @@ getFunctionArguments = function(code) {
 	return [];
 };
 
-module.exports = function(callback, args, context) {
-	var prefixedArguments = [],
+var inject = function(callback, args, context) {
+	var locals = [],
 	requiredArguments = getFunctionArguments(callback.toString());
+	
 
 	for (var i = 0;i<requiredArguments.length;++i) {
 		if (args instanceof Array) {
 			for (var j = 0;j<args.length;++j) {
 				if (args[j].hasOwnProperty(requiredArguments[i])
 					&&("object"===typeof args[j][requiredArguments[i]]||"function"===typeof args[j][requiredArguments[i]])) {
-					prefixedArguments[i] = args[j][requiredArguments[i]];
+					locals[i] = args[j][requiredArguments[i]];
 				}
 			}
 		}
-		else if (args.hasOwnProperty(requiredArguments[i])
-			&& ("object"===typeof args[requiredArguments[i]] || "function"===typeof args[requiredArguments[i]])) {
-
-			prefixedArguments[i] = args[requiredArguments[i]];
+		else if (args.hasOwnProperty(requiredArguments[i])) {
+			locals[i] = args[requiredArguments[i]];
 		}
 	}
 	
-	var injected = function() {
-		return callback.apply(context||this, prefixedArguments.concat(Array.prototype.slice.call(arguments)));
+	var injected;
+	injected = function() {
+		return callback.apply(context||this, locals.concat(Array.prototype.slice.call(arguments)));
 	}
 	injected.$$injected = true;
 	return injected;
-}
+};
+
+module.exports = {
+	inject: inject
+};
