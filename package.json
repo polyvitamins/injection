@@ -1,0 +1,23 @@
+{
+  "name": "injection",
+  "version": "1.0.0",
+  "description": "Make injection to function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/polyvitamins/injection.git"
+  },
+  "keywords": [
+    "inject",
+    "injection"
+  ],
+  "author": "Vladimir Kalmykov <vladimirmorulus@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/polyvitamins/injection/issues"
+  },
+  "homepage": "https://github.com/polyvitamins/injection#readme"
+}
