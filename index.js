@@ -16,8 +16,9 @@ var inject = function(callback, args, context) {
 	for (var i = 0;i<requiredArguments.length;++i) {
 		if (args instanceof Array) {
 			for (var j = 0;j<args.length;++j) {
-				if (args[j].hasOwnProperty(requiredArguments[i])) {
-					locals[i] = args[j][requiredArguments[i]];
+				var inspect = ("function"===typeof args[j]) ? args[j].apply(context||this) : args[j];
+				if (inspect.hasOwnProperty(requiredArguments[i])) {
+					locals[i] = inspect[requiredArguments[i]];
 				}
 			}
 		}
