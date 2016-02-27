@@ -9,9 +9,13 @@ getFunctionArguments = function(code) {
 };
 
 var inject = function(callback, args, context) {
-	var locals = [],
-	requiredArguments = getFunctionArguments(callback.toString());
-	
+	var locals = [];
+	if (callback instanceof Array) {
+		requiredArguments = callback.slice(0, callback.length-1);
+		callback = callback[callback.length-1];
+	} else {
+		requiredArguments = getFunctionArguments(callback.toString());
+	}
 
 	for (var i = 0;i<requiredArguments.length;++i) {
 		if (args instanceof Array) {
