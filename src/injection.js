@@ -1,15 +1,17 @@
+"use strict";
+
 var scopesregex = /({[^{}}]*[\n\r]*})/g,
 funcarguments = new RegExp(/[\d\t]*function[ ]?\(([^\)]*)\)/i),
 getFunctionArguments = function(code) {
 	if (funcarguments.test(code)) {
-		var match = funcarguments.exec(code);
+		let match = funcarguments.exec(code);
 		return match[1].replace(/[\s\n\r\t]*/g,'').split(',');
 	}
 	return [];
 };
 
-var inject = function(callback, args, context) {
-	var locals = [];
+export default function inject(callback, args, context) {
+	let locals = [], requiredArguments;
 	if (callback instanceof Array) {
 		requiredArguments = callback.slice(0, callback.length-1);
 		callback = callback[callback.length-1];
@@ -17,9 +19,9 @@ var inject = function(callback, args, context) {
 		requiredArguments = getFunctionArguments(callback.toString());
 	}
 
-	for (var i = 0;i<requiredArguments.length;++i) {
+	for (let i = 0;i<requiredArguments.length;++i) {
 		if (args instanceof Array) {
-			for (var j = 0;j<args.length;++j) {
+			for (let j = 0;j<args.length;++j) {
 				var inspect = ("function"===typeof args[j]) ? args[j].apply(context||this) : args[j];
 				if (inspect.hasOwnProperty(requiredArguments[i])) {
 					locals[i] = inspect[requiredArguments[i]];
@@ -37,8 +39,4 @@ var inject = function(callback, args, context) {
 	}
 	injected.$$injected = true;
 	return injected;
-};
-
-module.exports = {
-	inject: inject
 };

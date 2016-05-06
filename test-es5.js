@@ -1,6 +1,6 @@
+'use strict';
 var tap = require('tap');
-
-var inject = require('./index.js').inject;
+var inject = require('./es5.js').default;
 
 tap.test('General', function(t) {
 	t.ok("function"===typeof inject, "injector must be a function");
