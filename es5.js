@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.default = inject;
+exports.inject = inject;
 var scopesregex = /({[^{}}]*[\n\r]*})/g,
     funcarguments = new RegExp(/[\d\t]*function[ ]?\(([^\)]*)\)/i),
     getFunctionArguments = function getFunctionArguments(code) {

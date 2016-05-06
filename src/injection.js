@@ -10,7 +10,7 @@ getFunctionArguments = function(code) {
 	return [];
 };
 
-export default function inject(callback, args, context) {
+export function inject(callback, args, context) {
 	let locals = [], requiredArguments;
 	if (callback instanceof Array) {
 		requiredArguments = callback.slice(0, callback.length-1);
